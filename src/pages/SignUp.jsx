@@ -18,7 +18,7 @@ function SignUp(){
     let docUrl = document.URL.substring(0, document.URL.lastIndexOf('/'))
 
     const {setRegData, formMsg} = useContext(MyContext);
-    const [swapPage, setSwapPage] = useState(true)
+    const [swapPage, setSwapPage] = useState(false)
     const [loader, setLoader] = useState(false)
     const redirect = useNavigate()
     const [formData, setFormData] = useState({
@@ -51,6 +51,10 @@ function SignUp(){
     const [validPassCnf, setValidPassCnf] = useState(true)
     const [validForm, setValidForm] = useState(formMsg)
     const [validIdPic, setValIdPic] = useState({
+        state: true,
+        msg: ''
+    })
+    const [validPic, setValPic] = useState({
         state: true,
         msg: ''
     })
@@ -149,8 +153,6 @@ function SignUp(){
         else{
             if(pass_verify(formData['pass'])){
                 setLoader(true)
-            
-            // Add the before property to the form during api call
                 postData()
             }
         }
@@ -208,16 +210,15 @@ function SignUp(){
                 //             break
     
                 //         case 'identity':
-                //             console.log("Hi there")
                 //             setSwapPage(true)
-                //             setValidIdPic({
+                //             setValIdPic({
                 //                 state: false,
                 //                 msg: response.data['msg']
                 //             })
                 //             break
                 //         case 'profile':
                 //             setSwapPage(true)
-                //             setValidPic({
+                //             setValPic({
                 //                 state: false,
                 //                 msg: response.data['msg']
                 //             })
@@ -415,7 +416,8 @@ function SignUp(){
                             </fieldset>
                             {! validIdPic['state'] && <p className={Styles.error_msg}>
                                 {validIdPic['msg']}
-                                </p>}
+                                </p>
+                            }
 
                             <fieldset>
                                 <legend>Selfie</legend>
@@ -427,6 +429,11 @@ function SignUp(){
                                     ref={picRef}
                                 />
                             </fieldset>
+                            {! validPic['state'] && <p className={Styles.error_msg}>
+                                {validPic['msg']}
+                                </p>
+                            }
+
 
                             <fieldset>
                                 <legend>Type of Account</legend>

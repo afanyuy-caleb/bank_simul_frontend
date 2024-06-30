@@ -153,6 +153,7 @@ body::-webkit-scrollbar{
     
     .back_vid{
         position: absolute;
+        top: 0;
         z-index: -1;
     }
     
@@ -327,7 +328,7 @@ body::-webkit-scrollbar{
 
 /* Media for the background video */
 
-@media (min-aspect-ratio: 16/9){
+/* @media (min-aspect-ratio: 16/9){
     .back_vid{
         width: 100%;
         height: auto;
@@ -338,4 +339,4 @@ body::-webkit-scrollbar{
         width: 100%;    
         height: auto;
     }
-}
+} */

@@ -24,7 +24,6 @@ function Landing(){
                         <Link to="/signup" className={Styles.form_link}>OPEN ACCOUNT</Link>
                 
                     </div>
-
                 </section>
 
                 <section className={Styles.img_sect}> 
