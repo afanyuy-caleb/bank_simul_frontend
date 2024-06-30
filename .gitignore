@@ -12,7 +12,10 @@ dist
 dist-ssr
 *.local
 
+./src/assets/font
+
 # Editor directories and files
+.env
 .vscode/*
 !.vscode/extensions.json
 .idea

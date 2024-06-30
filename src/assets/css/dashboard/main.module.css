@@ -1,0 +1,13 @@
+
+.main{
+    flex: 1;
+    background: rgb(246, 251, 252);
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    padding: 1% 2%;
+    color: rgb(48, 47, 47);
+
+}

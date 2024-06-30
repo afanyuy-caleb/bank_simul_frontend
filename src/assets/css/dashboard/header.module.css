@@ -1,0 +1,112 @@
+.header{
+    display: flex;
+    height: 90px;
+    top: 0;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 60px;
+    z-index: 1;
+      
+    .header_search, .notif_btn{
+        height: 50px;
+        background: white;
+        box-shadow: 1px 1px rgba(110, 110, 110, 0.4);  
+        border-radius: 8px;
+    }
+
+    h2{
+        font-family: 'Prata', sans-serif;
+        font-size: 1.5em;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+    }
+
+    .header_search{
+        display: flex;
+        align-items: center;
+        width: 55%; 
+        padding-right: 1%;
+    }
+      
+    .header_search i{
+        font-size: 1.2em;
+        color:rgb(62, 62, 230);
+        transition: 0.3s;
+    }
+      
+    .header_search form{
+        width: 100%;
+        height: 100%;
+        position: relative;
+    } 
+      
+    .header_search input{
+        width: 100%;
+        margin-right: 5px;
+        outline: none;
+        border: none;
+        background: transparent;
+        font-size: 0.95em;
+        height: 100%;
+        padding: 0 7% 0 3%;
+
+        &::placeholder{
+        font-size: 0.95em;
+        color: rgb(201, 198, 198)
+        }
+    }
+
+    .header_search form i{
+        position: absolute;
+        right: -10%;
+        right: 1%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.4em;
+    }
+
+    .notif_btn{
+        display: grid;
+        place-items: center;
+        border: none;
+        width: 50px;
+
+        i{
+            color: rgb(201, 198, 198);
+            font-size: 1.9em;
+            margin: 5px;
+            position: relative;
+
+            span{
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                font-weight: 100;
+                border-radius: 50%;
+                display: grid;
+                place-items: center;
+                color: white;
+                font-size: 0.5em;
+                top: -50%;
+                right: -50%;
+                background: rgb(189, 176, 4);
+            }
+        }
+
+    }
+
+
+    nav{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
+
+    /* nav i{
+        
+    }
+      
+    nav i  */
+  }

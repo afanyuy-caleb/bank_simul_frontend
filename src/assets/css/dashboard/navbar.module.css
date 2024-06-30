@@ -1,0 +1,30 @@
+.section{
+    flex: 0.4;
+    background: aliceblue;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+
+    .logo{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .logo i img{
+        height: 35px;
+        width: 35px;
+    }
+    .logo span{
+        font-size: 23px;
+        color: rgb(62, 62, 230);
+    }
+    .logo p{
+        font-style: italic;
+        font-family: Georgia, 'Times New Roman', Times, serif ;
+        font-weight: bolder;
+        font-size: 23px;
+        padding-left: 3px;
+    }
+}

@@ -1,0 +1,70 @@
+.section{
+    flex: 0.4;
+    background: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+    gap: 3%;
+
+    .prof_image{
+        height: 170px;
+        width: 170px;
+
+        img{
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    .acc_type{
+        background: gold;
+        color: white;
+        font-size: 0.9em;
+        padding: 5px 10px;
+        border-radius: 10px;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .actions{
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        .act{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+
+            i{
+                display: grid;
+                place-items: center;
+                border: 1px solid rgba(216, 181, 26, 0.815);
+                color: gold;
+                height: 45px;
+                width: 45px;
+                border-radius: 50%;
+                transition: 0.2s;
+                font-size: 1.1em;
+
+                &:hover{
+                    color: white;
+                    border: none;
+                    background: gold;
+                }  
+            }
+            span{
+                font-size: 0.75em;
+            }
+        }
+    }
+    ._card img{
+        height: 100%;
+        width: 100%;
+    }
+}

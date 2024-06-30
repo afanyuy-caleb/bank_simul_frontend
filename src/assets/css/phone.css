@@ -1,0 +1,29 @@
+.hero-time{
+    color: pink;
+    background: blue
+}
+
+/* Style the counctry options  */
+.phone-dropdown {
+    max-height: unset !important;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    font-size: 0.9em;
+    overflow: scroll;
+    gap: 0;
+}
+.phone-dropdown::-webkit-scrollbar{
+    display: none;
+}
+  
+.phone-dropdown .country{
+    width: 100%;
+}
+.input_sect .phone-input-container{
+    height: 100%;
+}
+
+.react-tel-input{
+    height: 100%;
+}
