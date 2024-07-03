@@ -13,8 +13,60 @@ import classNames from "classnames"
 import {toast} from 'react-toastify'
 
 
-
 function SignUp(){
+    const errorHandler = (response)=>{
+    // Handling the error responses
+        switch (response.data['field']){
+            case 'form':
+                setSwapPage(false)
+                setValidForm({
+                    state: false,
+                    msg: response.data['msg']
+                })
+                break;  
+            case 'email': 
+                setSwapPage(false)
+                setValidEmail({
+                    state: false,
+                    msg: response.data['msg']
+                })
+                break;
+            case 'pass':
+                setSwapPage(true)
+                setValidPassword({
+                    state: false,
+                    msg: response.data['msg']
+                })
+                break
+            case 'passcnf':
+                setSwapPage(true)
+                setValidPassCnf({
+                    state: false,
+                    msg: response.data['msg']
+                })
+                break
+
+            case 'identity':
+                setSwapPage(true)
+                setValIdPic({
+                    state: false,
+                    msg: response.data['msg']
+                })
+                break
+            case 'profilePic':
+                setSwapPage(true)
+                setValPic({
+                    state: false,
+                    msg: response.data['msg']
+                })
+                break
+            
+            default:
+                console.log(response.data);
+                break;
+        }
+    }
+
     let docUrl = document.URL.substring(0, document.URL.lastIndexOf('/'))
 
     const {setRegData, formMsg} = useContext(MyContext);
@@ -42,11 +94,11 @@ function SignUp(){
     const [validPhone, setValidPhone] = useState(true)
     const [validEmail, setValidEmail] = useState({
         state: true,
-        msg: "Invalid email address"
+        msg: ''
     })
     const [validPassword, setValidPassword] = useState({
         state: true,
-        msg: ""
+        msg: ''
     })
     const [validPassCnf, setValidPassCnf] = useState(true)
     const [validForm, setValidForm] = useState(formMsg)
@@ -173,73 +225,32 @@ function SignUp(){
                 setLoader(false)
                 console.log(response.data)
 
-                // if(response.data['status']){
-                //     setRegData(formData)
-                //     redirect("/otp")
-                // }
-                // else{
-                //     // Handling the error responses
-                //     switch (response.data['field']){
-                //         case 'form':
-                //             setSwapPage(false)
-                //             setValidForm({
-                //                 state: false,
-                //                 msg: response.data['msg']
-                //             })
-                //             break;  
-                //         case 'email': 
-                //             setSwapPage(false)
-                //             setValidEmail({
-                //                 state: false,
-                //                 msg: response.data['msg']
-                //             })
-                //             break;
-                //         case 'pass':
-                //             setSwapPage(true)
-                //             setValidPassword({
-                //                 state: false,
-                //                 msg: response.data['msg']
-                //             })
-                //             break
-                //         case 'passcnf':
-                //             setSwapPage(true)
-                //             setValidPassCnf({
-                //                 state: false,
-                //                 msg: response.data['msg']
-                //             })
-                //             break
-    
-                //         case 'identity':
-                //             setSwapPage(true)
-                //             setValIdPic({
-                //                 state: false,
-                //                 msg: response.data['msg']
-                //             })
-                //             break
-                //         case 'profile':
-                //             setSwapPage(true)
-                //             setValPic({
-                //                 state: false,
-                //                 msg: response.data['msg']
-                //             })
-                //            break
-                        
-                //         default:
-                //             console.log(response.data);
-                //             break;
-                //     }
-                // }
+                if(response.data['status']){
+                    setRegData(formData)
+                    redirect("/otp")
+                }
+                else{
+                    errorHandler(response)
+                }
             })
-            .catch((err)=>{
+            .catch(err=>{
                 setLoader(false)
-                if(err.message == 'Network Error'){
-                    toast('Error connecting to the server', {
+                
+                console.log(err)
+                if(err.code.toLowerCase() == "err_network"){
+                    toast("Network Error: \nCouldn't reach the server", {
                         type: 'error',
                     })
+                }else if(err.code.toLowerCase() == "err_bad_request"){ 
+                    errorHandler(err.response)
+                }
+                else{
+                    toast("We have a problem at our end, \nplease try again later", {type: 'error'})
                 }
             })            
         }catch(error){
             console.log("There is an error: ", error)
+
             setValidForm({
                 state: false,
                 msg: error
@@ -413,11 +424,11 @@ function SignUp(){
                                     required = {true}
                                     ref={idRef}
                                 />
+                                {! validIdPic['state'] && <p className={Styles.error_msg}>
+                                    {validIdPic['msg']}
+                                    </p>
+                                }
                             </fieldset>
-                            {! validIdPic['state'] && <p className={Styles.error_msg}>
-                                {validIdPic['msg']}
-                                </p>
-                            }
 
                             <fieldset>
                                 <legend>Selfie</legend>
@@ -428,11 +439,11 @@ function SignUp(){
                                     name="profilePic"
                                     ref={picRef}
                                 />
+                                {! validPic['state'] && <p className={Styles.error_msg}>
+                                    {validPic['msg']}
+                                    </p>
+                                }
                             </fieldset>
-                            {! validPic['state'] && <p className={Styles.error_msg}>
-                                {validPic['msg']}
-                                </p>
-                            }
 
 
                             <fieldset>

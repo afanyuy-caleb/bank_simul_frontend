@@ -151,7 +151,6 @@
     min-height: 500px;
     gap: 30px;
     position: relative;
-
 }
 
 .loadingForm{
@@ -285,9 +284,10 @@ fieldset{
     padding: 8px 15px;
     border: 1px solid lightgrey;
     border-radius: 7px;
-    margin: 8px 0;
+    margin: 9px 0;
     display: flex;
     flex-direction: column;
+    position: relative;
     gap: 3px;
     
     legend{
@@ -387,7 +387,7 @@ form .form_link{
 
 .error_msg, .success_msg{
     position: absolute;
-    bottom: -50%;
+    bottom: -45%;
     right: 0;
     font-size: 0.8em;
     width: 100%;

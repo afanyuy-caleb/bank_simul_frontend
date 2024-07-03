@@ -9,6 +9,12 @@ const OtpVerification = () => {
     const redirect = useNavigate()
     const [loader, setLoader] = useState(false)
 
+    useEffect(() =>{
+        if(Object.keys(regData).length == 0){
+            redirect("/")
+        }
+    }, [])
+
     let otpEmail = regData['email'] || null
     
     let mailSketch = '';
