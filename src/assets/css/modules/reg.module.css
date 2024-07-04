@@ -387,7 +387,7 @@ form .form_link{
 
 .error_msg, .success_msg{
     position: absolute;
-    bottom: -45%;
+    bottom: -50%;
     right: 0;
     font-size: 0.8em;
     width: 100%;

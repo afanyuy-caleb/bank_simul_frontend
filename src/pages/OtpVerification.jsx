@@ -5,7 +5,7 @@ import MyContext from '../config/MyContext'
 import { useNavigate } from 'react-router-dom'
 
 const OtpVerification = () => {
-    const {regData, setFormMsg} = useContext(MyContext)
+    const {regData, setFormMsg, setLoginMsg} = useContext(MyContext)
     const redirect = useNavigate()
     const [loader, setLoader] = useState(false)
 
@@ -15,12 +15,9 @@ const OtpVerification = () => {
         }
     }, [])
 
-    let otpEmail = regData['email'] || null
+    let otpEmail = regData['email'] || '' 
     
-    let mailSketch = '';
-    if(otpEmail){
-        mailSketch = otpEmail.substring(0, 2) + '...' + otpEmail.substring(otpEmail.lastIndexOf('@'))
-    }
+    let mailSketch = otpEmail.substring(0, 2) + '...' + otpEmail.substring(otpEmail.lastIndexOf('@'))
 
     const [otp, setOtp] = useState(new Array(6).fill(""))
     const [isOk, setIsOk] = useState(false)
@@ -44,7 +41,7 @@ const OtpVerification = () => {
 
         setLoader(true)
         try{
-            let url = `http://localhost:3001/users/register`
+            let url = `http://localhost:3001/users/${regData['page']=='login'? 'getUser': 'register'}`  
             let fd = new FormData()
 
             for(let key in regData){
@@ -54,23 +51,48 @@ const OtpVerification = () => {
 
             const response = await axios.post(url, fd)
             setLoader(false)
-
-            if(response.data['status']){
-                if(regData['page'] === 'login'){
+            if(regData['page'] =='login'){
+                if(response.data['status']){
+                    localStorage.userInfo = JSON.stringify(response.data['msg'])
                     redirect("/dashboard")
 
-                }else{
-                    setFormMsg({status: true, msg: "Registration successful"})
+                } else{
+                    setLoginMsg({
+                        status: false, 
+                        msg: response.data.msg
+                    })
                     redirect("/signin")
-                }
+                }                
             }
             else{
-                setFormMsg({status: false, msg: "Registration failed"})
-                redirect("/signup")
+                if(response.data['status']){
+                    setLoginMsg({status: true, msg: "Registration successful"})
+                    redirect("/signin")
+
+                } else{
+                    console.log()
+                    // setFormMsg({
+                    //     status: false, 
+                    //     msg: "Registration failed"
+                    // })
+                    // redirect("/signup")
+                }                
             }
 
         }catch(error){
-            console.log(error);
+            setLoader(false)
+            if(regData['page'] == 'login'){
+                setLoginMsg({
+                    status: false, 
+                    msg: error.data.msg
+                })
+                redirect("/signin")
+            }
+            else{
+                setFormMsg({status: false, msg: "Registration failed"})
+                console.log(error)
+                redirect("/signup")
+            }
         }     
     }
 

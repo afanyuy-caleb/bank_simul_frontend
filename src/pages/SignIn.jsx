@@ -5,9 +5,11 @@ import MyContext from "../config/MyContext"
 import { useContext, useState } from "react"
 import axios from "axios"
 import classNames from "classnames"
+import { handleAxiosErrors } from "../utils/ErrorHandler"
+
 
 function SignIn(){
-    const {formMsg, setFormMsg, setRegData, setIsAuthenticated} = useContext(MyContext)
+    const {setRegData, loginMsg, setLoginMsg} = useContext(MyContext)
     const nav = useNavigate();
 
     const [loader, setLoader] = useState(false)
@@ -34,38 +36,40 @@ function SignIn(){
     }
 
     const postData = async ()=>{
-        let fD = new FormData();
         let url = 'http://localhost:3001/users/login'
- 
-        for(let key in formData){
-            fD.append(key, formData[key])
-        }
 
-        const response = await axios.post(url, fD)
-        setLoader(false)
-        if(response.data['status']){
-            localStorage.userInfo = JSON.stringify(response.data['msg'])
-            if(response.data['msg'] === "Mail sent"){
-                setRegData(formData)
-                nav("/otp")
-            }else{
-            //    Set the userinfo
-                nav("/dashboard")
+        await axios.post(url, formData)
+        .then(response => {
+            setLoader(false)
+            if(response.data['status']){
+                if(response.data['msg'] === "mail sent"){
+                    setRegData(formData)
+                    nav("/otp")
+                }else{
+                    //    Set the userinfo and redirect to the dashboard
+                    localStorage.userInfo = JSON.stringify(response.data['msg'])
+                    nav("/dashboard")
+                }
             }
-        }
-        else{
-            // Handling the error responses
-            switch (response.data['field']){
-                case 'form':
-                    setFormMsg({
-                        state: false,
-                        msg: response.data['msg']
-                    })
-                    break;  
-                default:
-                    console.log(response.data)
+            else{
+                // Handling the error responses
+                switch (response.data['field']){
+                    case 'form':
+                        setLoginMsg({
+                            state: false,
+                            msg: response.data['msg']
+                        })
+                        break;  
+                    default:
+                        console.log("Within the default")
+                        console.log(response.data)
+                }
             }
-        }
+        })
+        .catch(err=>{
+            setLoader(false)
+            handleAxiosErrors(err)
+        })
     }
 
     const handlePassIcon = (event) => {
@@ -106,14 +110,14 @@ function SignIn(){
 
                 </div>
                 <div className={Styles.form_section}>
-                    <form action="" method="POST" className={Styles.login} onSubmit={handleOnSubmit}> 
+                    <form action="" method="POST" className={Styles.login} onSubmit={handleOnSubmit} encType="multipart/form-data"> 
                         <h3>Login</h3>
                     
-                        {formMsg['msg'] && 
+                        {loginMsg['msg'] && 
                             <p 
-                            className= {formMsg['status'] ? `${Styles._login_msg} ${Styles.form_indicator}` : `${Styles.__login_msg} ${Styles.form_indicator}`}
+                            className= {loginMsg['status'] ? `${Styles._login_msg} ${Styles.form_indicator}` : `${Styles.__login_msg} ${Styles.form_indicator}`}
                             >
-                                {formMsg['msg']}
+                                {loginMsg['msg']}
                             </p>
                         }
 
@@ -146,7 +150,7 @@ function SignIn(){
                             }
                         </button>
 
-                        <p className={Styles.form_link}>Don't yet have an ASI account? <Link to="/signup">Open Account</Link></p>
+                        <p className={Styles.form_link}>Don&apos;t yet have an ASI account? <Link to="/signup">Open Account</Link></p>
                     </form>
                 </div>
             </div>

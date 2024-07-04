@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react"
+import { useContext, useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import '../assets/css/phone.css'
 import Styles from '../assets/css/modules/reg.module.css'
@@ -10,7 +10,7 @@ import { validate } from "email-validator"
 import axios from "axios"
 import MyContext from "../config/MyContext"
 import classNames from "classnames"
-import {toast} from 'react-toastify'
+import { handleAxiosErrors } from "../utils/ErrorHandler"
 
 
 function SignUp(){
@@ -31,6 +31,13 @@ function SignUp(){
                     msg: response.data['msg']
                 })
                 break;
+            case 'tel': 
+                setSwapPage(false)
+                setValidPhone({
+                    state: false,
+                    msg: response.data['msg']
+                })
+                break;
             case 'pass':
                 setSwapPage(true)
                 setValidPassword({
@@ -40,10 +47,7 @@ function SignUp(){
                 break
             case 'passcnf':
                 setSwapPage(true)
-                setValidPassCnf({
-                    state: false,
-                    msg: response.data['msg']
-                })
+                setValidPassCnf(false)
                 break
 
             case 'identity':
@@ -67,7 +71,7 @@ function SignUp(){
         }
     }
 
-    let docUrl = document.URL.substring(0, document.URL.lastIndexOf('/'))
+    // let docUrl = document.URL.substring(0, document.URL.lastIndexOf('/'))
 
     const {setRegData, formMsg} = useContext(MyContext);
     const [swapPage, setSwapPage] = useState(false)
@@ -91,7 +95,10 @@ function SignUp(){
     const [prof_pic, setProfPic] = useState();
     const [phoneNumber, setPhoneNumber] = useState('')
     
-    const [validPhone, setValidPhone] = useState(true)
+    const [validPhone, setValidPhone] = useState({
+        state: true,
+        msg: "This phone number is invalid"
+    })
     const [validEmail, setValidEmail] = useState({
         state: true,
         msg: ''
@@ -130,8 +137,18 @@ function SignUp(){
 
         if(event.target.type === 'file'){
             value = event.target.files[0];
-
-            (name === 'identity')? setPassPic(URL.createObjectURL(value)) : setProfPic(URL.createObjectURL(value))
+            const limit = 1024 * 1024 * 4
+            let size = value.size >= limit
+            let file_msg = size ? 'file too large' : ''
+            
+            if(name === 'identity'){
+                setValIdPic({state: !size, msg: file_msg})
+                setPassPic(URL.createObjectURL(value))
+            }
+            else{
+                setValPic({state: !size, msg: file_msg})
+                setProfPic(URL.createObjectURL(value))
+            }
         }
 
         if(name === 'email'){
@@ -172,6 +189,14 @@ function SignUp(){
                     msg = "password must contain a CAPS and a digit"
                 }
             }
+
+            if(value !== formData['passcnf']){
+                state = false;
+                setValidPassCnf(false)
+
+            }else{
+                setValidPassCnf(true)
+            }
         }
 
         if(! state){
@@ -204,8 +229,10 @@ function SignUp(){
             }
         else{
             if(pass_verify(formData['pass'])){
-                setLoader(true)
-                postData()
+                if(validIdPic['state'] && validPic['state']){
+                    setLoader(true)
+                    postData()
+                }
             }
         }
     }
@@ -217,7 +244,6 @@ function SignUp(){
             for(let key in formData){
                 formDt.append(key, formData[key])
             }
-            
             const url = 'http://localhost:3001/users/activate'
 
             await axios.post(url, formDt)
@@ -235,22 +261,12 @@ function SignUp(){
             })
             .catch(err=>{
                 setLoader(false)
+                handleAxiosErrors(err, errorHandler)
                 
-                console.log(err)
-                if(err.code.toLowerCase() == "err_network"){
-                    toast("Network Error: \nCouldn't reach the server", {
-                        type: 'error',
-                    })
-                }else if(err.code.toLowerCase() == "err_bad_request"){ 
-                    errorHandler(err.response)
-                }
-                else{
-                    toast("We have a problem at our end, \nplease try again later", {type: 'error'})
-                }
             })            
-        }catch(error){
-            console.log("There is an error: ", error)
 
+        }catch(error){
+            console.log('yeah')
             setValidForm({
                 state: false,
                 msg: error
@@ -259,7 +275,6 @@ function SignUp(){
     }
 
      // The function for the view password button
-
     const handlePassIcon = (event) => {
         let passInput = event.target.previousElementSibling
 
@@ -316,7 +331,7 @@ function SignUp(){
                     <div className={`${Styles.textArea2}`}>
                         <span>
                             Do not be afraid of Falling...<br/>
-                            Keep hoping you'll rise after the fall <br/> !!!
+                            Keep hoping you&apos;ll rise after the fall <br/> !!!
                         </span>
                     </div>
                 </div>
@@ -386,8 +401,8 @@ function SignUp(){
                                 <i className="fas fa-phone"></i>
                                 <label htmlFor="tel">Phone Number</label>
 
-                                {! validPhone && <p className={Styles.error_msg}>
-                                    This phone number is invalid
+                                {! validPhone['state'] && <p className={Styles.error_msg}>
+                                    {validPhone['msg']}
                                 </p>}
                             </div>
                         </>
@@ -427,6 +442,7 @@ function SignUp(){
                                 {! validIdPic['state'] && <p className={Styles.error_msg}>
                                     {validIdPic['msg']}
                                     </p>
+                                 
                                 }
                             </fieldset>
 

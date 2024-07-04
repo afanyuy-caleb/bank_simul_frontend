@@ -16,11 +16,15 @@ function App() {
     status: true,
     msg: ""
   })
-  
+  const [loginMsg, setLoginMsg] = useState({
+    status: true,
+    msg: ""
+  })
+
+
   return (
     <Router>
-      <MyContext.Provider value={{setFormMsg, formMsg, regData, setRegData, modalDisplay, setModalDisplay}} >
-
+      <MyContext.Provider value={{setFormMsg, formMsg, regData, setRegData, modalDisplay, setModalDisplay, loginMsg, setLoginMsg}}>
         <Routes>
           <Route index element={<Home />} />
           <Route path='/' exact element={<Home />} />
