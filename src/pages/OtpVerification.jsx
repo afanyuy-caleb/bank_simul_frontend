@@ -15,12 +15,9 @@ const OtpVerification = () => {
         }
     }, [])
 
-    let otpEmail = regData['email'] || null
+    let otpEmail = regData['email']     
     
-    let mailSketch = '';
-    if(otpEmail){
-        mailSketch = otpEmail.substring(0, 2) + '...' + otpEmail.substring(otpEmail.lastIndexOf('@'))
-    }
+    let mailSketch = otpEmail.substring(0, 2) + '...' + otpEmail.substring(otpEmail.lastIndexOf('@'))
 
     const [otp, setOtp] = useState(new Array(6).fill(""))
     const [isOk, setIsOk] = useState(false)

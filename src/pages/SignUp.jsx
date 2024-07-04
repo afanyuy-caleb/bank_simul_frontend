@@ -217,7 +217,6 @@ function SignUp(){
             for(let key in formData){
                 formDt.append(key, formData[key])
             }
-            
             const url = 'http://localhost:3001/users/activate'
 
             await axios.post(url, formDt)
