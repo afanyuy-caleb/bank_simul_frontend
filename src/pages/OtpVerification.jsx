@@ -60,6 +60,7 @@ const OtpVerification = () => {
                     redirect("/dashboard")
 
                 } else{
+                    console.log(response)
                     setLoginMsg({
                         status: false, 
                         msg: response.data.msg
@@ -73,12 +74,11 @@ const OtpVerification = () => {
                     redirect("/signin")
 
                 } else{
-                    console.log()
-                    // setFormMsg({
-                    //     status: false, 
-                    //     msg: "Registration failed"
-                    // })
-                    // redirect("/signup")
+                    setFormMsg({
+                        status: false, 
+                        msg: "Registration failed"
+                    })
+                    redirect("/signup")
                 }                
             }
 
@@ -87,13 +87,12 @@ const OtpVerification = () => {
             if(regData['page'] == 'login'){
                 setLoginMsg({
                     status: false, 
-                    msg: error.data.msg
+                    msg: error.response.data.msg
                 })
                 redirect("/signin")
             }
             else{
-                setFormMsg({status: false, msg: "Registration failed"})
-                console.log(error)
+                setFormMsg({status: false, msg: error.response.data.msg})
                 redirect("/signup")
             }
         }     

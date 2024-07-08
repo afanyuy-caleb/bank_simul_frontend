@@ -8,7 +8,7 @@
     padding: 10px 60px;
     z-index: 1;
       
-    .header_search, .notif_btn{
+    .header_search, .notif_btn, .close_btn{
         height: 50px;
         background: white;
         box-shadow: 1px 1px rgba(110, 110, 110, 0.4);  
@@ -66,7 +66,7 @@
         font-size: 1.4em;
     }
 
-    .notif_btn{
+    .notif_btn, .close_btn{
         display: grid;
         place-items: center;
         border: none;
@@ -93,9 +93,7 @@
                 background: rgb(189, 176, 4);
             }
         }
-
     }
-
 
     nav{
         display: flex;
@@ -104,9 +102,7 @@
         gap: 30px;
     }
 
-    /* nav i{
-        
+    .close_btn i{
+        color: pink
     }
-      
-    nav i  */
   }

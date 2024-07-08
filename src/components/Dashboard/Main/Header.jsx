@@ -1,9 +1,14 @@
-import React from 'react'
 import Styles from '../../../assets/css/dashboard/header.module.css'
-import logo2 from '../../../assets/images/logo_original.png'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Header() {
+  const nav = useNavigate()
+  const Logout = ()=>{
+    localStorage.clear()
+    nav('/')
+  }
+
   return (
     <header className={Styles.header}>
 
@@ -23,6 +28,11 @@ export default function Header() {
           <span id="pd_qnty_num">
             2
           </span>
+        </i>
+      </button>
+
+      <button className={Styles.close_btn} onClick={Logout}>
+        <i className="fas fa-power-off" title="logout" id="logout_btn">
         </i>
       </button>
       

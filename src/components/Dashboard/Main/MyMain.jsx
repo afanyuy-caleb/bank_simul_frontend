@@ -1,6 +1,4 @@
-import React from 'react'
 import Styles from '../../../assets/css/dashboard/myMain.module.css'
-import graph from '../../../assets/images/chart.webp'
 
 export default function MyMain() {
   return (
