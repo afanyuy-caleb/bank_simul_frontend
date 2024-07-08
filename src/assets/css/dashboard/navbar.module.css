@@ -1,11 +1,12 @@
 .section{
     flex: 0.4;
-    background: aliceblue;
+    background: rgba(218, 234, 248, 0.767);
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2%;
+    gap: 20%;
 
     .logo{
         display: flex;
@@ -13,9 +14,10 @@
         justify-content: center;
     }
     .logo i img{
-        height: 35px;
-        width: 35px;
+        height: 100px;
+        width: 100px;
     }
+
     .logo span{
         font-size: 23px;
         color: rgb(62, 62, 230);
@@ -27,4 +29,30 @@
         font-size: 23px;
         padding-left: 3px;
     }
+
+    .form, form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        border: 1px solid red;
+        gap: 15px;
+    }
+
+    form{
+        border: none;
+        gap: 12px;
+        padding: 2%;
+    }
+}
+
+.section2{
+    flex: 0.4;
+    background: rgba(57, 95, 139, 0.658);
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 2%;
+    gap: 20%;
 }

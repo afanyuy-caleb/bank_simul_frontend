@@ -20,11 +20,15 @@ function App() {
     status: true,
     msg: ""
   })
+  const [formDisplay, setFormDisplay] = useState({
+    status: false,
+    page: ''
+  })
 
 
   return (
     <Router>
-      <MyContext.Provider value={{setFormMsg, formMsg, regData, setRegData, modalDisplay, setModalDisplay, loginMsg, setLoginMsg}}>
+      <MyContext.Provider value={{setFormMsg, formMsg, regData, setRegData, modalDisplay, setModalDisplay, loginMsg, setLoginMsg, formDisplay, setFormDisplay}}>
         <Routes>
           <Route index element={<Home />} />
           <Route path='/' exact element={<Home />} />

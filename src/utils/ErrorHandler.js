@@ -1,7 +1,6 @@
 import {toast} from 'react-toastify'
 
 export const handleAxiosErrors = (err, errorHandler = null)=>{
-    console.log(err)
     if(err.code.toLowerCase() == "err_network"){
         toast("Network Error: \nCouldn't reach the server", {
             type: 'error',

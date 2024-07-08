@@ -92,8 +92,7 @@ function SignUp(){
     })
 
     const [pass_pic, setPassPic] = useState()
-    const [prof_pic, setProfPic] = useState();
-    const [phoneNumber, setPhoneNumber] = useState('')
+    const [prof_pic, setProfPic] = useState()
     
     const [validPhone, setValidPhone] = useState({
         state: true,
@@ -121,13 +120,14 @@ function SignUp(){
     const picRef = useRef(null) 
 
     const handleTelChange = (value)=>{
-        setPhoneNumber(value)
-        setValidPhone(value.length === 12)
-
+        setValidPhone({
+            state: value.length === 12, 
+            msg: "This phone number is invalid"
+        })
         setFormData((preve)=>{
             return {
                 ...preve,
-                tel: phoneNumber
+                tel: value
             }
         })
     }
@@ -193,7 +193,6 @@ function SignUp(){
             if(value !== formData['passcnf']){
                 state = false;
                 setValidPassCnf(false)
-
             }else{
                 setValidPassCnf(true)
             }
@@ -209,7 +208,6 @@ function SignUp(){
 
         return true;
     }
-
     const handleOnSubmit = (event)=>{
         event.preventDefault()
         
@@ -249,7 +247,6 @@ function SignUp(){
             await axios.post(url, formDt)
             .then((response)=>{
                 setLoader(false)
-                console.log(response.data)
 
                 if(response.data['status']){
                     setRegData(formData)
@@ -266,7 +263,6 @@ function SignUp(){
             })            
 
         }catch(error){
-            console.log('yeah')
             setValidForm({
                 state: false,
                 msg: error
